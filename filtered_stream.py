@@ -79,9 +79,31 @@ def delete_all_rules(rules):
     print(json.dumps(response.json(), indent=4))
 
 
+def get_stream(set):
+    """
+        opens filtered stream with specified rules
+    """
+    print("\n---------- BEGINNING STREAM ----------\n")
+    response = requests.get(
+        "https://api.twitter.com/2/tweets/search/stream", auth=bearer_oauth, stream=True,
+    )
+    print(response.status_code)
+    if response.status_code != 200:
+        raise Exception(
+            "Cannot get stream (HTTP {}): {}".format(
+                response.status_code, response.text
+            )
+        )
+    for response_line in response.iter_lines():
+        if response_line:
+            json_response = json.loads(response_line)
+            print(json.dumps(json_response, indent=4, sort_keys=True))
+
+
 if __name__ == "__main__":
     set_rules = set_rules()
     rules = get_rules()
+    get_stream(set_rules)
 
     ##### DELETES ALL RULES #####
     # rules = get_rules()
