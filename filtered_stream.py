@@ -99,12 +99,26 @@ def get_stream(set):
             json_response = json.loads(response_line)
             print(json.dumps(json_response, indent=4, sort_keys=True))
 
+            post_id = json_response['data']['id']
+            # need to respond to post_id
 
-if __name__ == "__main__":
+
+def delete_rules_main():
+    """ deletes all rules main method """
+    rules = get_rules()
+    delete_all_rules(rules)
+
+
+def start_stream_main():
+    """ sets rules and starts stream """
     set_rules = set_rules()
     rules = get_rules()
     get_stream(set_rules)
 
+if __name__ == "__main__":
+
+    ##### SETS RULES AND STARTS STREAM #####
+    start_stream_main()
+
     ##### DELETES ALL RULES #####
-    # rules = get_rules()
-    # delete_all_rules(rules)
+    # delete_rules_main()
